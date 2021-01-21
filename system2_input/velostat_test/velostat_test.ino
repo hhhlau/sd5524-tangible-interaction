@@ -11,7 +11,7 @@ int calibrationCounter = 0;
 int calibrationRef = 0;
 
 int sensitivity = 20;
-int refValue = 1023;
+int refValue = 1023; // Largest value that A0 will output
  
 void setup() {
   // initialize serial communications at 9600 bps:
