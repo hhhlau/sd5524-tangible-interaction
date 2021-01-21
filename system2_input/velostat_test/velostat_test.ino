@@ -1,10 +1,10 @@
 const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
-const int ledPin = 2;
+const int ledPin = D0;
 
 int sensorValue = 0;        // value read from the pot
 int oldValue = 0;
 
-bool isDebug = false;
+bool isDebug = true;
 
 bool isCalibrated = false;
 int calibrationCounter = 0;
@@ -17,7 +17,6 @@ void setup() {
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
   pinMode(analogInPin, INPUT);
-  pinMode(7, INPUT);
  pinMode(ledPin, OUTPUT);
 
  sensorValue = pressureDetection();
