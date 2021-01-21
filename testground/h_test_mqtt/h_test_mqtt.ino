@@ -12,15 +12,26 @@ const char* ssid = "H'wn";
 const char* password = "20020535g";
 const char* mqtt_server = "158.132.54.146";
 
+// ----------------------------------------------------------------------------------
+//                      Custom Golabal Var.
+// ----------------------------------------------------------------------------------
+
 String topic_head("sd5524/2");  // --> Define your Topic prefix
 String shared_pubTopic=topic_head+String("/status");
 String shared_subTopic=topic_head+String("/")+clientId+String("/shared");
 String self_subTopic = topic_head + String("/device/")+clientId;
+// ----------------------------------------------------------------------------------
 
+
+// ----------------------------------------------------------------------------------
+//                      Custom Golabal Var.
+// ----------------------------------------------------------------------------------
 Servo servo;
 int initAngle = 0;
 int servoPin = D8;
 bool isServoSetUp = false;
+// ----------------------------------------------------------------------------------
+
 
 int IndexToPin[]={D0,D1,D2,D3,D4,D5,D6,D7,D8,A0};
 
@@ -77,9 +88,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
     return;
   }
 
-  const char* _command = doc["command"];
-  Serial.print("Get Command: ");
-  Serial.println(_command);
   
   String _myTopic = topic_head + String("/device/")+clientId;
    if((String)topic == _myTopic){
