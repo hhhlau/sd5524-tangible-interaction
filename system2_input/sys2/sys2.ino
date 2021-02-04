@@ -9,7 +9,7 @@ String clientId = "sys2_1"; // --> Define your client ID is string, be aware NOT
 
 const char* ssid = "H'wn";
 const char* password = "20020535g";
-const char* mqtt_server = "158.132.54.146";
+const char* mqtt_server = "158.132.54.138";
 
 // ----------------------------------------------------------------------------------
 //                      Custom Golabal Var.
@@ -38,8 +38,13 @@ bool isCalibrated = false;
 int calibrationCounter = 0;
 int calibrationRef = 0;
 
+long standingCounter = 0;
+bool isStanding = false;
+bool isBoardcastedStanding = false;
+
 int sensitivity = 20;
-int refValue = 1023; // Largest value that A0 will output
+int standingBounce = 10;
+int refValue = 1024; // Largest value that A0 will output
 
 long lastStamp = 0;
 // ----------------------------------------------------------------------------------
@@ -152,21 +157,27 @@ void statusPublisher(String _msg, String _topic){
     pubDoc["id"] = clientId;
     pubDoc["echoFrom"] = _topic;
     pubDoc["msg"]= _msg;
-    pubDoc["test"] = "{'data':[1,2,3]}";
     Serial.println(_msg);
-    Serial.println("------->!!");
     char buffer[256];
     size_t n = serializeJson(pubDoc, buffer);
     client.publish(shared_pubTopic.c_str(), buffer, n);
 }
 
 void emitSignal(long _delta){
-  Serial.println("Emitted");
   StaticJsonDocument<256> pubDoc;
     pubDoc["id"] = clientId;
     pubDoc["msg"]= "pressed";
     pubDoc["delta"] = _delta;
-    pubDoc["test"] = "{'data':[1,2,3]}";
+    char buffer[256];
+    size_t n = serializeJson(pubDoc, buffer);
+    client.publish(self_pubTopic.c_str(), buffer, n);
+}
+
+void emitStanding(){
+  StaticJsonDocument<256> pubDoc;
+    pubDoc["id"] = clientId;
+    pubDoc["msg"]= "stopped";
+    pubDoc["standingCounter"] = standingCounter;
     char buffer[256];
     size_t n = serializeJson(pubDoc, buffer);
     client.publish(self_pubTopic.c_str(), buffer, n);
@@ -182,6 +193,21 @@ long deltaTimeStamp() {
   long _last = lastStamp;
   lastStamp = _current;
   return _current - _last;
+}
+
+void checkIfStanding(int delta) {
+  if (abs(delta) < standingBounce && sensorValue != refValue){
+    long _counter = standingCounter;
+    standingCounter = millis();
+    if(standingCounter - _counter > 5000){
+      Serial.println("User is standing.");
+      isStanding = true;
+    }
+  }else {
+    isStanding = false;
+    isBoardcastedStanding = false;
+    standingCounter = 0;
+  }
 }
 
 int pressureDetection() {
@@ -256,15 +282,21 @@ void loop() {
     sensorValue = pressureDetection();
 
 //    Logic here
-    Serial.print("????-->");
-    Serial.println(oldValue-sensorValue);
-    if ( oldValue-sensorValue > sensitivity ){
-          long _delta = deltaTimeStamp();
-          Serial.println(_delta);
-          emitSignal(_delta);
-          
-    }else{
-      digitalWrite(2, LOW);
+    checkIfStanding(oldValue-sensorValue);
+    if (isStanding){
+      if (!isBoardcastedStanding){
+        emitStanding();
+        isBoardcastedStanding = true;
+      }
+    }else {
+      if ( oldValue-sensorValue > sensitivity ){
+            long _delta = deltaTimeStamp();
+            Serial.println(_delta);
+            emitSignal(_delta);
+            
+      }else{
+        digitalWrite(2, LOW);
+      }
     }
     
   }else {
