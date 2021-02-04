@@ -1,7 +1,8 @@
 var mqtt = require('mqtt')
 let moment = require('moment')
-let  resources = require("./resources.json")
+let resources = require("./resources.json")
 let utilsHandler = require('./utils')
+let sysHandler = require('./systemHandler')
 
 var client  = mqtt.connect(`mqtt://${resources.MQTT_BROKER_ENDPOINT}:${resources.MQTT_BROKER_PORT}`, {clientId: resources.CORE_CLIENT_ID})
  
@@ -33,9 +34,6 @@ client.on('message', function (topic, message) {
 
   switch (topic) {
     case 'sd5524/2/device/sys2_1/status':
-      let _angle = utilsHandler.getRandomIntInclusive(30, 180)
-      let _targetSys = 'sys4_1'
-      console.log(`-----> Turning ${_targetSys}'s Servo to ${_angle}`)
-      utilsHandler.setServoAngle(client, _targetSys, _angle)
+      sysHandler.stepParser(_msg, client)
   }
 })

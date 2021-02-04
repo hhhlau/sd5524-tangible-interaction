@@ -1,4 +1,4 @@
-let  resources = require("./resources.json")
+ let  resources = require("./resources.json")
 
 module.exports.setServoAngle = function (mqttClient, deviceId, angle){
     console.log(`----${resources.DEVICE_COMMAND_TOPIC_HEAD}/${deviceId}/turn----`)
