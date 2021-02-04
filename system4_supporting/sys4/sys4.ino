@@ -10,7 +10,7 @@ String clientId = "sys4_1"; // --> Define your client ID is string, be aware NOT
 
 const char* ssid = "H'wn";
 const char* password = "20020535g";
-const char* mqtt_server = "158.132.54.146";
+const char* mqtt_server = "158.132.54.138";
 
 // ----------------------------------------------------------------------------------
 //                      Custom Golabal Var.
@@ -28,7 +28,8 @@ String self_subTopic = topic_head + String("/device/")+clientId;
 // ----------------------------------------------------------------------------------
 Servo servo;
 int initAngle = 0;
-int servoPin = D8;
+Servo servoObjs[] = {servo};
+int servoPins[] = {D8};
 bool isServoSetUp = false;
 // ----------------------------------------------------------------------------------
 
@@ -105,10 +106,20 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   }
   if((String)topic == _myTopic + String("/turn")){
+    int _servoId = (int)doc["servoId"];
     int _servoAngle = (int)doc["angle"];
     Serial.println(_servoAngle);
-    servo.write(_servoAngle);
-    String _msg("Set the servo angle to " + (String)_servoAngle) ;
+    servoObjs[_servoId].write(_servoAngle);
+    String _msg("Set the servo "+(String)_servoId +" angle to " + (String)_servoAngle) ;
+    statusPublisher(_msg, (String)topic);
+    delay(100);
+  }
+  if((String)topic == _myTopic + String("/turns")){
+    int _servoId = (int)doc["pin"];
+    int _servoAngle = (int)doc["angle"];
+    servoObjs[0].detach();
+    servoObjs[_servoId].write(_servoAngle);
+    String _msg("Set the servo "+(String)_servoId +" angle to " + (String)_servoAngle) ;
     statusPublisher(_msg, (String)topic);
     delay(100);
   }
@@ -171,10 +182,10 @@ void setUpServo(int pin, int startAngle){
        servo.detach();
        Serial.println("Detaching Servo with pervious setting...");
     }
-    servoPin = IndexToPin[pin];
+    servoPins[0] = IndexToPin[pin];
     initAngle = startAngle;
-    pinMode(servoPin, OUTPUT);
-    servo.attach(servoPin);
+    pinMode(servoPins[0], OUTPUT);
+    servo.attach(servoPins[0]);
     servo.write(initAngle);
 
     isServoSetUp = true;
@@ -190,9 +201,9 @@ void setup() {
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
   
-  pinMode(servoPin, OUTPUT);
-    servo.attach(servoPin);
-    servo.write(initAngle);
+  pinMode(servoPins[0], OUTPUT);
+    servoObjs[0].attach(servoPins[0]);
+    servoObjs[0].write(initAngle);
   
 
 }
