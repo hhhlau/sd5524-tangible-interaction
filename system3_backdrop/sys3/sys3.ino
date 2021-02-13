@@ -137,8 +137,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
     int _brightness = (int)doc["brightness"];
     setPixelColor(_r, _g, _b);
     if (_brightness){
-      setBrightness(_brightness);
-      String _msg("Setting pixel strip with R: "+(String)_r +", G:"+(String)_g +", B:"+(String)_b+" with brightness: "+ (String)_brightness );
+      int mappedBrightness = map(_brightness, 0, 100, 0, 255);
+      setBrightness(mappedBrightness);
+      String _msg("Setting pixel strip with R: "+(String)_r +", G:"+(String)_g +", B:"+(String)_b+" with brightness: "+ (String)_brightness + "%");
       statusPublisher(_msg, (String)topic);
     }else {
       String _msg("Setting pixel strip with R: "+(String)_r +", G:"+(String)_g +", B:"+(String)_b);
