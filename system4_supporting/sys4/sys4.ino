@@ -27,9 +27,10 @@ String self_subTopic = topic_head + String("/device/")+clientId;
 //                      Custom Golabal Var.
 // ----------------------------------------------------------------------------------
 Servo servo;
+Servo servo1;
 int initAngle = 0;
-Servo servoObjs[] = {servo};
-int servoPins[] = {D8};
+Servo servoObjs[] = {servo, servo1};
+int servoPins[] = {D8, D7};
 bool isServoSetUp = false;
 // ----------------------------------------------------------------------------------
 
