@@ -37,7 +37,7 @@ const int motor1Pin1 = D0;
 const int motor1Pin2 = D1;
 const int motor1SpeedPin = D2;
 
-int motor1Speed = 255;
+int motor1Speed = 550;
 
 // ----------------------------------------------------------------------------------
 
@@ -107,26 +107,44 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   if((String)topic == _myTopic + String("/turn")){
     int _speed = (int)doc["speed"];
-    int _isClockwise = (int)doc["isClockwise"];
+    int _isClockwise = (bool)doc["isClockwise"];
     motor1Speed = _speed;
     analogWrite(motor1SpeedPin, motor1Speed);
 //    servoObjs[_servoId].write(_servoAngle);
+    setRollerDirection(_isClockwise);
     long _speedPert = (motor1Speed/ 1023)* 100;
     String _msg("Setting motor 1  at "+(String)_speedPert +"% speed in clockwise.");
     statusPublisher(_msg, (String)topic);
   }
   
-  if((String)topic == _myTopic + String("/init")){
-    pixels.clear();
+  if((String)topic == _myTopic + String("/pixel/init")){
+    int _numOfPixels = (int)doc["numOfPixels"];
+    if (_numOfPixels){
+      pixels.clear();
+      updateLength(_numOfPixels);
+      String _msg("The pixels number is set to "+(String)_numOfPixels);
+      statusPublisher(_msg, (String)topic);
+    }else{
+      String _msg("Incorrect para, init suspended");
+      statusPublisher(_msg, (String)topic);
+    }
   }
 
   if((String)topic == _myTopic + String("/pixel/set")){
     int _r = (int)doc["red"];
     int _g = (int)doc["green"];
     int _b = (int)doc["blue"];
+    int _brightness = (int)doc["brightness"];
     setPixelColor(_r, _g, _b);
-    String _msg("Setting pixel strip with R: "+(String)_r +", G:"+(String)_g +", B:"+(String)_b);
+    if (_brightness){
+      setBrightness(_brightness);
+      String _msg("Setting pixel strip with R: "+(String)_r +", G:"+(String)_g +", B:"+(String)_b+" with brightness: "+ (String)_brightness );
+      statusPublisher(_msg, (String)topic);
+    }else {
+      String _msg("Setting pixel strip with R: "+(String)_r +", G:"+(String)_g +", B:"+(String)_b);
     statusPublisher(_msg, (String)topic);
+    }
+    
     
     
   }
@@ -187,6 +205,16 @@ void setPixelColor(int r, int g, int b){
   
 }
 
+void setRollerDirection(bool isClockwise) {
+  if (isClockwise){
+    digitalWrite(motor1Pin1, LOW);
+    digitalWrite(motor1Pin2, HIGH);
+  }else {
+    digitalWrite(motor1Pin1, HIGH);
+    digitalWrite(motor1Pin2, LOW);
+  }
+}
+
 
 
 // ----------------------------------------------------------------------------------
@@ -208,8 +236,7 @@ void setup() {
   pinMode(motor1Pin2, OUTPUT);
   pinMode(motor1SpeedPin, OUTPUT);
 
-  digitalWrite(motor1Pin1, LOW);
-  digitalWrite(motor1Pin2, HIGH);
+  setRollerDirection(true);
 
   analogWrite(motor1SpeedPin, motor1Speed);
 
