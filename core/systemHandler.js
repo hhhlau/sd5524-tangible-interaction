@@ -12,11 +12,12 @@ module.exports.stepParser = function (msg, client){
 
         let _targetSys = 'sys4_1'
         console.log(`-----> Resetting ${_targetSys}'s Servo to 0`)
-        utilsHandler.setServoAngle(client, _targetSys, 0)
+        utilsHandler.setServoAngle(client, _targetSys,0, 0)
 
         // Should ask Sys 3 to stop rotating the background
 
         // Should ask Sys 1 to stop rotating feet and stand up
+        utilsHandler.setServoAngle(client, 'sys1_1', 0, 0)
 
 
     }else if (msg['msg'] === 'pressed') {

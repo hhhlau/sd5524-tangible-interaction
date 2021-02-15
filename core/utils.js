@@ -1,8 +1,31 @@
  let  resources = require("./resources.json")
+ const hexRgb = require('hex-rgb');
 
-module.exports.setServoAngle = function (mqttClient, deviceId, angle){
-    console.log(`----${resources.DEVICE_COMMAND_TOPIC_HEAD}/${deviceId}/turn----`)
-    mqttClient.publish(`${resources.DEVICE_COMMAND_TOPIC_HEAD}/${deviceId}/turn`, JSON.stringify({angle}))
+module.exports.setServoAngle = function (mqttClient, deviceId, servoId, angle){
+  let toTopic = `${resources.DEVICE_COMMAND_TOPIC_HEAD}/${deviceId}/turn`
+    console.log(`----${toTopic}----`)
+    mqttClient.publish(toTopic, JSON.stringify({servoId, angle}))
+}
+
+module.exports.setCharacterRunSpeed = function(mqttClient,deviceId, speed, isClockwise) {
+  let toTopic = `${resources.DEVICE_COMMAND_TOPIC_HEAD}/${deviceId}/run`
+  console.log(`----${toTopic}----`)
+  mqttClient.publish(toTopic, JSON.stringify({speed, isClockwise}))
+}
+
+module.exports.setBackgroundLedColor= function(mqttClient, deviceId, hexCode, brightness) {
+  let toTopic = `${resources.DEVICE_COMMAND_TOPIC_HEAD}/${deviceId}/pixel/set`
+  console.log(`----${toTopic}----`)
+  let _rgb = hexCode(hexCode)
+  delete _rgb[alpha]
+  console.log(`Converting ${hexCode} to ${JSON.stringify(_rgb)}`)
+  mqttClient.publish(toTopic, JSON.stringify({..._rgb, brightness}))
+}
+
+module.exports.setBgRollerSpeed= function(mqttClient,deviceId, speed, isClockwise) {
+  let toTopic = `${resources.DEVICE_COMMAND_TOPIC_HEAD}/${deviceId}/turn`
+  console.log(`----${toTopic}----`)
+  mqttClient.publish(toTopic, JSON.stringify({speed, isClockwise}))
 }
 
 module.exports.getRandomIntInclusive = function (min, max) {
