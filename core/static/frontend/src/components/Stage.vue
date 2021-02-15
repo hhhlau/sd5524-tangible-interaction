@@ -9,12 +9,12 @@
         ></div>
       </div>
       <div class="character-container">
-        <div class="body"></div>
+        <div id="character-body"></div>
         <div class="feet" id="character-feet"></div>
       </div>
     </div>
     <div class="info-container">
-      <button @click="testBtn">Add 1</button>
+      <button @click="toggleUiSpeed">Add 1</button>
     </div>
   </div>
 </template>
@@ -34,6 +34,7 @@ export default {
     return {
       rollerBgEl: null,
       characterFeetEl: null,
+      characterBodyEl: null,
 
       isStarted: false,
       currentSpeed: 0,
@@ -42,37 +43,53 @@ export default {
   },
   mounted() {
     this.rollerBgEl = document.getElementById("roller-bg");
+    this.characterFeetEl = document.getElementById("character-feet");
+    this.characterBodyEl = document.getElementById("character-body");
     socket.on("ping", (payload) => {
       console.log(payload);
     });
-    // this.characterFeetEl = document.getElementById("character-feet");
+  },
+  watch: {
+    currentSpeed() {
+      switch (this.currentSpeed) {
+        case 0:
+          this.characterBodyEl.style.transform = "rotate(0)";
+          this.rollerBgEl.classList.remove("running-bg");
+          this.characterFeetEl.classList.remove("running-feet");
+          break;
+        case 1:
+          this.characterBodyEl.style.transform = "rotate(5deg)";
+          this.rollerBgEl.classList.add("walking-bg");
+          this.characterFeetEl.classList.add("walking-feet");
+          break;
+
+        case 2:
+          this.characterBodyEl.style.transform = "rotate(10deg)";
+          this.rollerBgEl.classList.remove("walking-bg");
+          this.rollerBgEl.classList.add("jogging-bg");
+
+          this.characterFeetEl.classList.remove("walking-feet");
+          this.characterFeetEl.classList.add("jogging-feet");
+          break;
+
+        case 3:
+          this.characterBodyEl.style.transform = "rotate(30deg)";
+          this.rollerBgEl.classList.remove("jogging-bg");
+          this.rollerBgEl.classList.add("running-bg");
+
+          this.characterFeetEl.classList.remove("jogging-feet");
+          this.characterFeetEl.classList.add("running-feet");
+          break;
+      }
+    },
   },
   methods: {
-    testBtn() {
-      let _bgClassList = this.rollerBgEl.classList;
-      // let _feetClassList = this.characterFeetEl.classList;
-      if (Object.values(_bgClassList).includes("walking-bg")) {
-        this.rollerBgEl.classList.remove("walking-bg");
-        this.rollerBgEl.classList.add("jogging-bg");
-
-        this.characterFeetEl.classList.remove("walking-feet");
-        this.characterFeet.classList.add("jogging-feet");
-      } else if (Object.values(_bgClassList).includes("jogging-bg")) {
-        this.rollerBgEl.classList.remove("jogging-bg");
-        this.rollerBgEl.classList.add("running-bg");
-
-        this.characterFeetEl.classList.remove("jogging-feet");
-        this.characterFeet.classList.add("running-feet");
-      } else if (Object.values(_bgClassList).includes("running-bg")) {
-        this.rollerBgEl.classList.remove("running-bg");
-        this.characterFeetEl.classList.remove("running-feet");
+    toggleUiSpeed() {
+      if (this.currentSpeed < 3) {
+        this.currentSpeed++;
       } else {
-        this.rollerBgEl.classList.add("walking-bg");
-        this.characterFeet.classList.add("walking-feet");
+        this.currentSpeed = 0;
       }
-      // classList.remove('horizTranslate');
-      // let _computedStyleBg = window.getComputedStyle(this.rollerBgEl);
-      console.log(this.characterFeetEl);
     },
   },
 };
@@ -154,10 +171,11 @@ export default {
   position: relative;
 }
 
-.character-container > .body {
+#character-body {
   width: 100%;
   height: 300px;
   background-color: red;
+  transform-origin: bottom center;
 }
 
 #character-feet {
