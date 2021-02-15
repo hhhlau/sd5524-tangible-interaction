@@ -7,7 +7,8 @@
     "express": "^4.17.1",
     "hex-rgb": "^4.2.0",
     "moment": "^2.29.1",
-    "mqtt": "^4.2.6"
+    "mqtt": "^4.2.6",
+    "socket.io": "^3.1.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

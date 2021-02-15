@@ -4,6 +4,24 @@ let resources = require("./resources.json")
 let utilsHandler = require('./utils')
 let sysHandler = require('./systemHandler')
 
+const httpServer = require("http").createServer();
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "http://localhost:8080",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(socket)
+});
+
+setInterval(() => {
+  io.emit("ping", "pong")
+  console.log('emitting')
+}, 5000);
+
+httpServer.listen(3000);
+
 var client  = mqtt.connect(`mqtt://${resources.MQTT_BROKER_ENDPOINT}:${resources.MQTT_BROKER_PORT}`, {clientId: resources.CORE_CLIENT_ID})
  
 client.on('connect', function () {
