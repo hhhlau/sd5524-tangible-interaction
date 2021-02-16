@@ -203,8 +203,12 @@ void setup() {
   client.setCallback(callback);
   
   pinMode(servoPins[0], OUTPUT);
-    servoObjs[0].attach(servoPins[0]);
-    servoObjs[0].write(initAngle);
+  servoObjs[0].attach(servoPins[0]);
+  servoObjs[0].write(initAngle);
+
+  pinMode(servoPins[1], OUTPUT);
+  servoObjs[1].attach(servoPins[1]);
+  servoObjs[1].write(initAngle);
   
 
 }
