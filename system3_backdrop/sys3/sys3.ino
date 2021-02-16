@@ -121,7 +121,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     int _numOfPixels = (int)doc["numOfPixels"];
     if (_numOfPixels){
       pixels.clear();
-      updateLength(_numOfPixels);
+      pixels.updateLength(_numOfPixels);
       String _msg("The pixels number is set to "+(String)_numOfPixels);
       statusPublisher(_msg, (String)topic);
     }else{
@@ -135,13 +135,15 @@ void callback(char* topic, byte* payload, unsigned int length) {
     int _g = (int)doc["green"];
     int _b = (int)doc["blue"];
     int _brightness = (int)doc["brightness"];
-    setPixelColor(_r, _g, _b);
+    
     if (_brightness){
+      setPixelColor(_r, _g, _b);
       int mappedBrightness = map(_brightness, 0, 100, 0, 255);
-      setBrightness(mappedBrightness);
+      pixels.setBrightness(mappedBrightness);
       String _msg("Setting pixel strip with R: "+(String)_r +", G:"+(String)_g +", B:"+(String)_b+" with brightness: "+ (String)_brightness + "%");
       statusPublisher(_msg, (String)topic);
     }else {
+      setPixelColor(_r, _g, _b);
       String _msg("Setting pixel strip with R: "+(String)_r +", G:"+(String)_g +", B:"+(String)_b);
     statusPublisher(_msg, (String)topic);
     }
