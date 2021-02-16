@@ -12,12 +12,12 @@ const io = require("socket.io")(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  console.log(socket)
+  // console.log(socket)
 });
 
 setInterval(() => {
   io.emit("ping", "pong")
-  console.log('emitting')
+  // console.log('emitting')
 }, 5000);
 
 httpServer.listen(3000);
@@ -46,12 +46,16 @@ client.on('message', function (topic, message) {
   let _msg = JSON.parse(message.toString())
   // _msg['testp'] = JSON.parse(_msg.test)
   _msg['arrivedAt'] = moment().format()
-  console.table(_msg)
+  // console.table(_msg)
   console.log("--------------------------------\n\n")
   // client.end()
 
   switch (topic) {
     case 'sd5524/2/device/sys2_1/status':
-      sysHandler.stepParser(_msg, client)
+      sysHandler.stepParser(_msg,'sys2_1', client)
+      break
+      case 'sd5524/2/device/sys2_2/status':
+        sysHandler.stepParser(_msg,'sys2_2', client)
+        break
   }
 })
