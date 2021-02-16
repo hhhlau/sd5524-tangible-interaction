@@ -27,9 +27,10 @@ String self_subTopic = topic_head + String("/device/")+clientId;
 //                      Custom Golabal Var.
 // ----------------------------------------------------------------------------------
 Servo servo;
+Servo servo1;
 int initAngle = 0;
-Servo servoObjs[] = {servo};
-int servoPins[] = {D8};
+Servo servoObjs[] = {servo, servo1};
+int servoPins[] = {D8, D7};
 bool isServoSetUp = false;
 // ----------------------------------------------------------------------------------
 
@@ -202,8 +203,12 @@ void setup() {
   client.setCallback(callback);
   
   pinMode(servoPins[0], OUTPUT);
-    servoObjs[0].attach(servoPins[0]);
-    servoObjs[0].write(initAngle);
+  servoObjs[0].attach(servoPins[0]);
+  servoObjs[0].write(initAngle);
+
+  pinMode(servoPins[1], OUTPUT);
+  servoObjs[1].attach(servoPins[1]);
+  servoObjs[1].write(initAngle);
   
 
 }
