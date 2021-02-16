@@ -32,7 +32,7 @@ const int ledPin = 2;
 int sensorValue = 0;        // value read from the pot
 int oldValue = 0;
 
-bool isDebug = true;
+bool isDebug = false;
 
 bool isCalibrated = false;
 int calibrationCounter = 0;
@@ -168,6 +168,7 @@ void emitSignal(long _delta){
     pubDoc["id"] = clientId;
     pubDoc["msg"]= "pressed";
     pubDoc["delta"] = _delta;
+    pubDoc["sinceSys"] = millis();
     char buffer[256];
     size_t n = serializeJson(pubDoc, buffer);
     client.publish(self_pubTopic.c_str(), buffer, n);
@@ -264,6 +265,13 @@ void setup() {
   client.setCallback(callback);
   
   pinMode(analogInPin, INPUT);
+  StaticJsonDocument<256> pubDoc;
+    pubDoc["id"] = clientId;
+    pubDoc["msg"]= "init";
+    pubDoc["initTimeStamp"] = millis();
+    char buffer[256];
+    size_t n = serializeJson(pubDoc, buffer);
+    client.publish(self_pubTopic.c_str(), buffer, n);
   sensorValue = pressureDetection();
     
   
