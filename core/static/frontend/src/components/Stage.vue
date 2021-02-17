@@ -136,30 +136,34 @@ export default {
       if (this.selectedCharacterMode) {
         switch (this.selectedCharacterMode) {
           case "STANDING":
-            this.characterBodyEl.style.transform = "rotate(0)";
-            this.rollerBgEl.classList.remove("running-bg");
-            this.characterFeetEl.classList.remove("running-feet");
+            this.currentSpeed = 0
+            // this.characterBodyEl.style.transform = "rotate(0)";
+            // this.rollerBgEl.classList.remove("running-bg");
+            // this.characterFeetEl.classList.remove("running-feet");
             break;
           case "WALKING":
-            this.characterBodyEl.style.transform = "rotate(5deg)";
-            this.rollerBgEl.classList.add("walking-bg");
-            this.characterFeetEl.classList.add("walking-feet");
+            this.currentSpeed = 1
+            // this.characterBodyEl.style.transform = "rotate(5deg)";
+            // this.rollerBgEl.classList.add("walking-bg");
+            // this.characterFeetEl.classList.add("walking-feet");
             break;
           case "JOGGING":
-            this.characterBodyEl.style.transform = "rotate(10deg)";
-            this.rollerBgEl.classList.remove("walking-bg");
-            this.rollerBgEl.classList.add("jogging-bg");
+            this.currentSpeed = 2
+            // this.characterBodyEl.style.transform = "rotate(10deg)";
+            // this.rollerBgEl.classList.remove("walking-bg");
+            // this.rollerBgEl.classList.add("jogging-bg");
 
-            this.characterFeetEl.classList.remove("walking-feet");
-            this.characterFeetEl.classList.add("jogging-feet");
+            // this.characterFeetEl.classList.remove("walking-feet");
+            // this.characterFeetEl.classList.add("jogging-feet");
             break;
           case "RUNNING":
-            this.characterBodyEl.style.transform = "rotate(30deg)";
-            this.rollerBgEl.classList.remove("jogging-bg");
-            this.rollerBgEl.classList.add("running-bg");
+            this.currentSpeed = 3
+            // this.characterBodyEl.style.transform = "rotate(30deg)";
+            // this.rollerBgEl.classList.remove("jogging-bg");
+            // this.rollerBgEl.classList.add("running-bg");
 
-            this.characterFeetEl.classList.remove("jogging-feet");
-            this.characterFeetEl.classList.add("running-feet");
+            // this.characterFeetEl.classList.remove("jogging-feet");
+            // this.characterFeetEl.classList.add("running-feet");
             break;
         }
         socket.emit("toggleCharacterMode", this.selectedCharacterMode);
@@ -250,7 +254,7 @@ export default {
 }
 
 .character-container {
-  max-width: 50vw;
+  max-width: 15vw;
   width: 50%;
   height: 500px;
   display: flex;
@@ -267,11 +271,11 @@ export default {
 }
 
 #character-feet {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   /* background-color: blue; */
   position: absolute;
-  top: 250px;
+  top: 300px;
   background-size: cover;
 }
 
