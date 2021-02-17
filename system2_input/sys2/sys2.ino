@@ -39,8 +39,11 @@ int calibrationCounter = 0;
 int calibrationRef = 0;
 
 long standingCounter = 0;
+long emptyCounter = 0;
 bool isStanding = false;
+bool isEmpty =true;
 bool isBoardcastedStanding = false;
+bool isBoardcastedEmpty = false;
 
 int sensitivity = 20;
 int standingBounce = 10;
@@ -184,6 +187,16 @@ void emitStanding(){
     client.publish(self_pubTopic.c_str(), buffer, n);
 }
 
+void emitEmpty(){
+  StaticJsonDocument<256> pubDoc;
+    pubDoc["id"] = clientId;
+    pubDoc["msg"]= "empty";
+    pubDoc["emptyCounter"] = emptyCounter;
+    char buffer[256];
+    size_t n = serializeJson(pubDoc, buffer);
+    client.publish(self_pubTopic.c_str(), buffer, n);
+}
+
 
 int deltaChange(int newVal){
   return newVal - sensorValue;
@@ -196,11 +209,27 @@ long deltaTimeStamp() {
   return _current - _last;
 }
 
+void checkIfEmpty() {
+  if (sensorValue == refValue){
+    long _emptyCounter = emptyCounter;
+    emptyCounter = millis();
+    if (emptyCounter - _emptyCounter > 3000){
+      Serial.println("Seem no one is on the sensor.");
+      isEmpty = true;
+    }
+  }else {
+    isEmpty = false;
+    isBoardcastedEmpty = false;
+    emptyCounter = 0;
+  }
+
+}
+
 void checkIfStanding(int delta) {
   if (abs(delta) < standingBounce && sensorValue != refValue){
     long _counter = standingCounter;
     standingCounter = millis();
-    if(standingCounter - _counter > 5000){
+    if(standingCounter - _counter > 8000){
       Serial.println("User is standing.");
       isStanding = true;
     }
@@ -291,10 +320,16 @@ void loop() {
 
 //    Logic here
     checkIfStanding(oldValue-sensorValue);
+    checkIfEmpty();
     if (isStanding){
       if (!isBoardcastedStanding){
         emitStanding();
         isBoardcastedStanding = true;
+      }
+    }else if (isEmpty){
+      if (!isBoardcastedEmpty){
+        emitEmpty();
+        isBoardcastedEmpty = true; 
       }
     }else {
       if ( oldValue-sensorValue > sensitivity ){
