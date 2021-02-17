@@ -5,16 +5,43 @@
         <div
           class="bg"
           id="roller-bg"
-          :style="`background-image: url(${require('@/assets/test-background.jpg')})`"
+          :style="
+            `background-image: url(${require('@/assets/rolling-bg.jpg')})`
+          "
         ></div>
       </div>
       <div class="character-container">
-        <div id="character-body"></div>
-        <div class="feet" id="character-feet"></div>
+        <div
+          id="character-body"
+          :style="`background-image: url(${require('@/assets/body.png')})`"
+        ></div>
+        <div
+          class="feet"
+          id="character-feet"
+          :style="`background-image: url(${require('@/assets/feet.png')})`"
+        ></div>
       </div>
     </div>
     <div class="info-container">
-      <button @click="toggleUiSpeed">Add 1</button>
+      <button @click="offEverything">offEverything</button>
+      <select v-model="selectedStageScene">
+        <option
+          v-for="option in stageSceneOptions"
+          :value="option.value"
+          :key="option.value"
+        >
+          {{ option.text }}
+        </option>
+      </select>
+      <select v-model="selectedCharacterMode">
+        <option
+          v-for="option in characterModeOptions"
+          :value="option.value"
+          :key="option.value"
+        >
+          {{ option.text }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
@@ -39,6 +66,24 @@ export default {
       isStarted: false,
       currentSpeed: 0,
       refDistance: 1000,
+
+      selectedStageScene: null,
+      selectedCharacterMode: null,
+
+      stageSceneOptions: [
+        { text: "Off", value: 0 },
+        { text: "Stage 1", value: 1 },
+        { text: "Stage 2", value: 2 },
+        { text: "Stage 3", value: 3 },
+        { text: "Stage 4", value: 4 },
+        { text: "Stage 5", value: 5 },
+      ],
+      characterModeOptions: [
+        { text: "Standing", value: "STANDING" },
+        { text: "Walking", value: "WALKING" },
+        { text: "Jogging", value: "JOGGING" },
+        { text: "Running", value: "RUNNING" },
+      ],
     };
   },
   mounted() {
@@ -82,8 +127,49 @@ export default {
           break;
       }
     },
+    selectedStageScene() {
+      if (this.selectedStageScene) {
+        socket.emit("toggleStageScene", this.selectedStageScene);
+      }
+    },
+    selectedCharacterMode() {
+      if (this.selectedCharacterMode) {
+        switch (this.selectedCharacterMode) {
+          case "STANDING":
+            this.characterBodyEl.style.transform = "rotate(0)";
+            this.rollerBgEl.classList.remove("running-bg");
+            this.characterFeetEl.classList.remove("running-feet");
+            break;
+          case "WALKING":
+            this.characterBodyEl.style.transform = "rotate(5deg)";
+            this.rollerBgEl.classList.add("walking-bg");
+            this.characterFeetEl.classList.add("walking-feet");
+            break;
+          case "JOGGING":
+            this.characterBodyEl.style.transform = "rotate(10deg)";
+            this.rollerBgEl.classList.remove("walking-bg");
+            this.rollerBgEl.classList.add("jogging-bg");
+
+            this.characterFeetEl.classList.remove("walking-feet");
+            this.characterFeetEl.classList.add("jogging-feet");
+            break;
+          case "RUNNING":
+            this.characterBodyEl.style.transform = "rotate(30deg)";
+            this.rollerBgEl.classList.remove("jogging-bg");
+            this.rollerBgEl.classList.add("running-bg");
+
+            this.characterFeetEl.classList.remove("jogging-feet");
+            this.characterFeetEl.classList.add("running-feet");
+            break;
+        }
+        socket.emit("toggleCharacterMode", this.selectedCharacterMode);
+      }
+    },
   },
   methods: {
+    offEverything() {
+      socket.emit("offEverything");
+    },
     toggleUiSpeed() {
       if (this.currentSpeed < 3) {
         this.currentSpeed++;
@@ -104,7 +190,7 @@ export default {
 
 .stage-container {
   width: 100%;
-  height: 80%;
+  height: 70%;
   background-color: antiquewhite;
   display: flex;
   justify-content: center;
@@ -126,6 +212,7 @@ export default {
   background-repeat: repeat-x;
   background-position: left bottom;
   object-fit: contain;
+  background-size: cover;
 }
 
 .rolling {
@@ -163,7 +250,7 @@ export default {
 }
 
 .character-container {
-  max-width: 30vw;
+  max-width: 50vw;
   width: 50%;
   height: 500px;
   display: flex;
@@ -173,17 +260,19 @@ export default {
 
 #character-body {
   width: 100%;
-  height: 300px;
-  background-color: red;
+  height: 350px;
+  /* background-color: red; */
   transform-origin: bottom center;
+  background-size: cover;
 }
 
 #character-feet {
   width: 200px;
   height: 200px;
-  background-color: blue;
+  /* background-color: blue; */
   position: absolute;
   top: 250px;
+  background-size: cover;
 }
 
 @keyframes rotation {
@@ -197,7 +286,7 @@ export default {
 
 .info-container {
   width: 100%;
-  height: 20%;
+  height: 30%;
   background-color: gray;
 }
 </style>
