@@ -16,8 +16,8 @@ module.exports.setCharacterRunSpeed = function(mqttClient,deviceId, speed, isClo
 module.exports.setBackgroundLedColor= function(mqttClient, deviceId, hexCode, brightness) {
   let toTopic = `${resources.DEVICE_COMMAND_TOPIC_HEAD}/${deviceId}/pixel/set`
   console.log(`----${toTopic}----`)
-  let _rgb = hexCode(hexCode)
-  delete _rgb[alpha]
+  let _rgb = hexRgb(hexCode)
+  delete _rgb['alpha']
   console.log(`Converting ${hexCode} to ${JSON.stringify(_rgb)}`)
   mqttClient.publish(toTopic, JSON.stringify({..._rgb, brightness}))
 }

@@ -13,12 +13,23 @@ const io = require("socket.io")(httpServer, {
 
 io.on("connection", (socket) => {
   // console.log(socket)
+  socket.on("toggleStageScene", (data) => {
+    console.log("toggleStageScene to :", data)
+    sysHandler.setStageScene(client,data)
+  })
+
+  socket.on("toggleCharacterMode", (data) => {
+    console.log("toggleCharacterMode to :", data)
+    sysHandler.setCharacterMode(client,data)
+  })
+
+  socket.on("offEverything", () => {
+    console.log("offEverything")
+    sysHandler.offEverything(client)
+  })
 });
 
-setInterval(() => {
-  io.emit("ping", "pong")
-  // console.log('emitting')
-}, 5000);
+
 
 httpServer.listen(3000);
 
