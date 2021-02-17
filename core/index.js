@@ -7,7 +7,7 @@ let sysHandler = require('./systemHandler')
 const httpServer = require("http").createServer();
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "http://localhost:8080",
+    origin: "http://158.132.54.138:8080",
   },
 });
 

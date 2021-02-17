@@ -49,7 +49,7 @@
 <script>
 import { io } from "socket.io-client";
 
-const URL = "http://localhost:3000";
+const URL = "http://158.132.54.138:3000";
 const socket = io(URL);
 socket.on("connection", (socket) => {
   console.log(socket.handshake.auth); // prints { token: "abcd" }
