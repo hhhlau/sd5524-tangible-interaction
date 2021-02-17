@@ -42,6 +42,18 @@
           {{ option.text }}
         </option>
       </select>
+
+      <select v-model="selectedDisplayMode">
+        <option
+          v-for="option in displayModeOptions"
+          :value="option.value"
+          :key="option.value"
+        >
+          {{ option.text }}
+        </option>
+      </select>
+
+      <div>{{displayData}}</div>
     </div>
   </div>
 </template>
@@ -50,6 +62,7 @@
 import { io } from "socket.io-client";
 
 const URL = "http://158.132.54.138:3000";
+// const URL = "http://localhost:3000"
 const socket = io(URL);
 socket.on("connection", (socket) => {
   console.log(socket.handshake.auth); // prints { token: "abcd" }
@@ -69,6 +82,14 @@ export default {
 
       selectedStageScene: null,
       selectedCharacterMode: null,
+      selectedDisplayMode: null,
+
+      displayData: null,
+
+      displayModeOptions: [
+        {text: "Real time", value: "currentRecords"},
+        {text: "Recorded data", value: "displayRecords"},
+      ],
 
       stageSceneOptions: [
         { text: "Off", value: 0 },
@@ -93,6 +114,10 @@ export default {
     socket.on("ping", (payload) => {
       console.log(payload);
     });
+    socket.on("display", (payload)=> {
+      console.log(payload);
+      this.displayData = payload
+    })
   },
   watch: {
     currentSpeed() {
@@ -130,6 +155,11 @@ export default {
     selectedStageScene() {
       if (this.selectedStageScene) {
         socket.emit("toggleStageScene", this.selectedStageScene);
+      }
+    },
+    selectedDisplayMode() {
+      if (this.selectedDisplayMode) {
+        socket.emit("setDisplayMode", this.selectedDisplayMode);
       }
     },
     selectedCharacterMode() {
