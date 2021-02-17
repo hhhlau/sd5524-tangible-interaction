@@ -7,9 +7,11 @@ let sysHandler = require('./systemHandler')
 const httpServer = require("http").createServer();
 const io = require("socket.io")(httpServer, {
   cors: {
-    origin: "http://158.132.54.138:8080",
+    origin: ["http://158.132.54.138:8080", "http://localhost:8080"],
   },
 });
+
+sysHandler.initDataStore('minute')
 
 io.on("connection", (socket) => {
   // console.log(socket)
@@ -21,6 +23,10 @@ io.on("connection", (socket) => {
   socket.on("toggleCharacterMode", (data) => {
     console.log("toggleCharacterMode to :", data)
     sysHandler.setCharacterMode(client,data)
+  })
+
+  socket.on("setDisplayMode", (data)=> {
+    sysHandler.setDisplayMode(data)
   })
 
   socket.on("offEverything", () => {
@@ -35,7 +41,7 @@ httpServer.listen(3000);
 
 var client  = mqtt.connect(`mqtt://${resources.MQTT_BROKER_ENDPOINT}:${resources.MQTT_BROKER_PORT}`, {clientId: resources.CORE_CLIENT_ID})
  
-client.on('connect', function () {
+client.once('connect', function () {
   client.subscribe(resources.GENERAL_STATUS_TOPIC, function (err) {
     if (!err) {
       console.log(`Subcribed to ${resources.GENERAL_STATUS_TOPIC}`)
@@ -52,21 +58,22 @@ client.on('connect', function () {
  
 client.on('message', function (topic, message) {
   // message is Buffer
-  console.log("--------------------------------")
-  console.log(topic)
+  // console.log("--------------------------------")
+  // console.log(topic)
   let _msg = JSON.parse(message.toString())
-  // _msg['testp'] = JSON.parse(_msg.test)
+  // // _msg['testp'] = JSON.parse(_msg.test)
   _msg['arrivedAt'] = moment().format()
-  // console.table(_msg)
-  console.log("--------------------------------\n\n")
-  // client.end()
+  // // console.table(_msg)
+  // console.log("--------------------------------\n\n")
+  // // client.end()
 
   switch (topic) {
     case 'sd5524/2/device/sys2_1/status':
       sysHandler.stepParser(_msg,'sys2_1', client)
       break
       case 'sd5524/2/device/sys2_2/status':
-        sysHandler.stepParser(_msg,'sys2_2', client)
+        // sysHandler.stepParser(_msg,'sys2_2', client)
         break
   }
+  sysHandler.displayHandler(io.sockets, client)
 })
