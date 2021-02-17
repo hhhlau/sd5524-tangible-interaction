@@ -27,7 +27,7 @@ String self_subTopic = topic_head + String("/device/")+clientId;
 // ----------------------------------------------------------------------------------
 //1. Set up neopixel/ WS2812B
 const int pixelPin = D6;
-const int numOfPixels = 8;
+const int numOfPixels = 32;
 int myR = 0;
 int myG = 0;
 int myB = 0;
