@@ -175,7 +175,7 @@ module.exports.setCharacterMode = function (client, mode) {
     case "WALKING": // some people
       utilsHandler.setBgRollerSpeed(client, "sys3_1", 550, false);
       utilsHandler.setServoAngle(client, "sys1_1", 0, 50);
-      utilsHandler.setCharacterRunSpeed(client, "sys1_1", 130, true);
+      utilsHandler.setCharacterRunSpeed(client, "sys1_1", 140, true);
       break;
     case "JOGGING": // lots of people
       utilsHandler.setBgRollerSpeed(client, "sys3_1", 650, false);
@@ -183,7 +183,7 @@ module.exports.setCharacterMode = function (client, mode) {
       utilsHandler.setCharacterRunSpeed(client, "sys1_1", 200, true);
       break;
     case "RUNNING":
-      utilsHandler.setBgRollerSpeed(client, "sys3_1", 700, false);
+      utilsHandler.setBgRollerSpeed(client, "sys3_1", 850, false);
       utilsHandler.setServoAngle(client, "sys1_1", 0, 20);
       utilsHandler.setCharacterRunSpeed(client, "sys1_1", 300, true);
       break;
@@ -236,17 +236,17 @@ const setCharacterMode = function (client, mode) {
       utilsHandler.setCharacterRunSpeed(client, "sys1_1", 0, true);
       break;
     case "WALKING": // some people
-      utilsHandler.setBgRollerSpeed(client, "sys3_1", 550, false);
-      utilsHandler.setServoAngle(client, "sys1_1", 0, 50);
+      utilsHandler.setBgRollerSpeed(client, "sys3_1", 450, false);
+      utilsHandler.setServoAngle(client, "sys1_1", 0, 45);
       utilsHandler.setCharacterRunSpeed(client, "sys1_1", 130, true);
       break;
     case "JOGGING": // lots of people
-      utilsHandler.setBgRollerSpeed(client, "sys3_1", 750, false);
-      utilsHandler.setServoAngle(client, "sys1_1", 0, 40);
+      utilsHandler.setBgRollerSpeed(client, "sys3_1", 550, false);
+      utilsHandler.setServoAngle(client, "sys1_1", 0, 35);
       utilsHandler.setCharacterRunSpeed(client, "sys1_1", 200, true);
       break;
     case "RUNNING":
-      utilsHandler.setBgRollerSpeed(client, "sys3_1", 700, false);
+      utilsHandler.setBgRollerSpeed(client, "sys3_1", 750, false);
       utilsHandler.setServoAngle(client, "sys1_1", 0, 20);
       utilsHandler.setCharacterRunSpeed(client, "sys1_1", 300, true);
       break;
@@ -257,26 +257,27 @@ const setStageScene = function (client, stage) {
   switch (stage) {
     case 0:
       utilsHandler.setBackgroundLedColor(client, "sys3_1", "#000", 100);
-      utilsHandler.setServoAngle(client, "sys4_1", 0, 0); //monster
-      utilsHandler.setServoAngle(client, "sys4_1", 1, 180); // House
+      utilsHandler.setServoAngle(client, "sys4_1", 0, 180); // House
+      utilsHandler.setServoAngle(client, "sys4_1", 1, 0); // Monster
       break;
     case 1: // no people
       utilsHandler.setBackgroundLedColor(client, "sys3_1", "#845EC2", 100);
-      utilsHandler.setServoAngle(client, "sys4_1", 0, 180); //monster
+      
       break;
     case 2:
       utilsHandler.setBackgroundLedColor(client, "sys3_1", "#51C2D5", 100);
       break;
     case 3:
       utilsHandler.setBackgroundLedColor(client, "sys3_1", "#D31E00", 100);
+      utilsHandler.setServoAngle(client, "sys4_1", 1, 180); //Monster out
       break;
     case 4:
       utilsHandler.setBackgroundLedColor(client, "sys3_1", "#FF7D09", 100);
       break;
     case 5:
       utilsHandler.setBackgroundLedColor(client, "sys3_1", "#FFFFFF", 100);
-      utilsHandler.setServoAngle(client, "sys4_1", 0, 180); //monster
-      utilsHandler.setServoAngle(client, "sys4_1", 1, 0); // House
+      utilsHandler.setServoAngle(client, "sys4_1", 1, 0); //monster back
+      // utilsHandler.setServoAngle(client, "sys4_1", 0, 0); // House out
       break;
   }
 };
@@ -337,5 +338,38 @@ const stageRenderer = function (client) {
     }
     _lastTier = _tier;
     _lastRefValue = _renderValue;
+  }
+};
+
+module.exports.stageRenderer_p = function (client, tier) {
+  let _tier = tier;
+  if (1) {
+    if (1) {
+      switch (_tier) {
+        case 0:
+          // no people
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STANDING");
+          setCharacterMode(client, "STANDING");
+          setStageScene(client, 0);
+          break;
+        case 1:
+          // few people
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STANDING");
+          setStageScene(client, 1);
+          setCharacterMode(client, "WALKING");
+          break;
+        case 2:
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JOGGING");
+          setStageScene(client, 3);
+          setCharacterMode(client, "JOGGING");
+          break;
+        case 3:
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JOGGING");
+          setStageScene(client, 5);
+          setCharacterMode(client, "RUNNING");
+          break;
+      }
+    }
+    _lastTier = _tier;
   }
 };
