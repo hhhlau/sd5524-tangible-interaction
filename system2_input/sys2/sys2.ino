@@ -9,7 +9,7 @@ String clientId = "sys2_1"; // --> Define your client ID is string, be aware NOT
 
 const char* ssid = "H'wn";
 const char* password = "20020535g";
-const char* mqtt_server = "158.132.54.138";
+const char* mqtt_server = "sd5524-2-broker.cloud.shiftr.io";
 
 // ----------------------------------------------------------------------------------
 //                      Custom Golabal Var.
@@ -131,7 +131,7 @@ void reconnect() {
 //    String clientId = "ESP8266Client-";
 //    clientId += String(random(0xffff), HEX);
     // Attempt to connect
-    if (client.connect(clientId.c_str())) {
+    if (client.connect(clientId.c_str(),"sd5524-2-broker","jdNd7DyzTnSPhFtB")) {
       Serial.print("connected as: ");
       Serial.println(clientId);
 

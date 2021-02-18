@@ -7,10 +7,13 @@
 String clientId = "sys4_1"; // --> Define your client ID is string, be aware NOT to have duplicated ID
 
 // Update these with values suitable for your network.
-
+//
 const char* ssid = "H'wn";
 const char* password = "20020535g";
-const char* mqtt_server = "158.132.54.138";
+//
+//const char* ssid = "HziP";
+//const char* password = "idunwannatellyou";
+const char* mqtt_server = "sd5524-2-broker.cloud.shiftr.io";
 
 // ----------------------------------------------------------------------------------
 //                      Custom Golabal Var.
@@ -32,6 +35,11 @@ int initAngle = 0;
 Servo servoObjs[] = {servo, servo1};
 int servoPins[] = {D8, D7};
 bool isServoSetUp = false;
+
+bool isTracing = false;
+int tracingServoId = 0;
+int _tStart = 0;
+int _tEnd = 0;
 // ----------------------------------------------------------------------------------
 
 
@@ -107,6 +115,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   }
   if((String)topic == _myTopic + String("/turn")){
+    isTracing = false;
     int _servoId = (int)doc["servoId"];
     int _servoAngle = (int)doc["angle"];
     Serial.println(_servoAngle);
@@ -123,6 +132,24 @@ void callback(char* topic, byte* payload, unsigned int length) {
     String _msg("Set the servo "+(String)_servoId +" angle to " + (String)_servoAngle) ;
     statusPublisher(_msg, (String)topic);
     delay(100);
+  }
+  if((String)topic == _myTopic + String("/trace")){
+    int _servoId = (int)doc["servoId"];
+    isTracing = true;
+    if (_servoId == 0 ){
+      //
+      tracingServoId = 0;
+      _tStart = 10;
+      _tEnd = 150;
+    }else if (_servoId == 1){
+      tracingServoId = 1;
+      _tStart = 170;
+      _tEnd = 30;
+    }
+    
+  }
+  if((String)topic == _myTopic + String("/trace/stop")){
+    isTracing = false;
   }
   if((String)topic == _myTopic + String("/init")){
     setUpServo(D8, 0);
@@ -141,7 +168,7 @@ void reconnect() {
 //    String clientId = "ESP8266Client-";
 //    clientId += String(random(0xffff), HEX);
     // Attempt to connect
-    if (client.connect(clientId.c_str())) {
+    if (client.connect(clientId.c_str(),"sd5524-2-broker","jdNd7DyzTnSPhFtB")) {
       Serial.print("connected as: ");
       Serial.println(clientId);
 
@@ -219,5 +246,12 @@ void loop() {
     reconnect();
   }
   client.loop();
+
+//  while (isTracing) {
+//      servoObjs[tracingServoId].write(_tStart);
+//      delay(200);
+//      servoObjs[tracingServoId].write(_tEnd);
+//      delay(200);
+//    }
 
 }

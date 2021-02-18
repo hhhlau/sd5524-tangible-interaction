@@ -54,6 +54,10 @@
       </select>
 
       <div>{{displayData}}</div>
+
+      <div class="mq-observer">
+        <iframe src="https://sd5524-2-broker.cloud.shiftr.io/embed?widgets=1" width="600" height="400" frameborder="0" allowfullscreen></iframe>
+      </div>
     </div>
   </div>
 </template>
@@ -97,7 +101,7 @@ export default {
         { text: "Stage 2", value: 2 },
         { text: "Stage 3", value: 3 },
         { text: "Stage 4", value: 4 },
-        { text: "Stage 5", value: 5 },
+        // { text: "Stage 5", value: 5 },
       ],
       characterModeOptions: [
         { text: "Standing", value: "STANDING" },
@@ -115,7 +119,8 @@ export default {
       console.log(payload);
     });
     socket.on("display", (payload)=> {
-      console.log(payload);
+      // console.log(payload);
+      this.selectedDisplayMode = payload.mode
       this.displayData = payload
     })
   },
@@ -154,7 +159,7 @@ export default {
     },
     selectedStageScene() {
       if (this.selectedStageScene) {
-        socket.emit("toggleStageScene", this.selectedStageScene);
+        socket.emit("testTier", this.selectedStageScene);
       }
     },
     selectedDisplayMode() {
