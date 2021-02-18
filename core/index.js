@@ -29,6 +29,10 @@ io.on("connection", (socket) => {
     sysHandler.setDisplayMode(data)
   })
 
+  socket.on("testTier", (data)=> {
+    sysHandler.stageRenderer_p(client,data)
+  })
+
   socket.on("offEverything", () => {
     console.log("offEverything")
     sysHandler.offEverything(client)
