@@ -31,6 +31,7 @@ let referenceValues = {
 };
 
 let _lastRefValue = 0;
+let _lastTier = null;
 
 let displayMode = "displayRecords";
 
@@ -280,41 +281,61 @@ const setStageScene = function (client, stage) {
   }
 };
 
+const tierDetector = function () {
+  let _renderValue = dataStore[displayMode].length;
+  if (_renderValue == 0) {
+    return 0;
+  } else if (
+    _renderValue <=
+    referenceValues.lowerTier * referenceValues.weighting[dataStore.unit]
+  ) {
+    return 1;
+  } else if (
+    _renderValue >
+      referenceValues.lowerTier * referenceValues.weighting[dataStore.unit] &&
+    _renderValue <
+      referenceValues.upperTier * referenceValues.weighting[dataStore.unit]
+  ) {
+    return 2;
+  } else if (
+    _renderValue >=
+    referenceValues.upperTier * referenceValues.weighting[dataStore.unit]
+  ) {
+    return 3;
+  }
+};
+
 const stageRenderer = function (client) {
   let _renderValue = dataStore[displayMode].length;
+  let _tier = tierDetector();
   if (_renderValue !== _lastRefValue) {
-    if (_renderValue == 0) {
-      // no people
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STANDING");
-      setCharacterMode(client, "STANDING");
-      setStageScene(client, 0);
-    } else if (
-      _renderValue <=
-      referenceValues.lowerTier * referenceValues.weighting[dataStore.unit]
-    ) {
-      // few people
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STANDING");
-      setStageScene(client, 1);
-      setCharacterMode(client, "STANDING");
-    } else if (
-      _renderValue >
-        referenceValues.lowerTier * referenceValues.weighting[dataStore.unit] &&
-      _renderValue <
-        referenceValues.upperTier * referenceValues.weighting[dataStore.unit]
-    ) {
-      // some people
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WALKING");
-      setStageScene(client, 3);
-      setCharacterMode(client, "WALKING");
-    } else if (
-      _renderValue >=
-      referenceValues.upperTier * referenceValues.weighting[dataStore.unit]
-    ) {
-      // lot of people
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JOGGING");
-      setStageScene(client, 5);
-      setCharacterMode(client, "JOGGING");
+    if (_tier !== _lastTier) {
+      switch (_tier) {
+        case 0:
+          // no people
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STANDING");
+          setCharacterMode(client, "STANDING");
+          setStageScene(client, 0);
+          break;
+        case 1:
+          // few people
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> STANDING");
+          setStageScene(client, 1);
+          setCharacterMode(client, "STANDING");
+          break;
+        case 2:
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> WALKING");
+          setStageScene(client, 3);
+          setCharacterMode(client, "WALKING");
+          break;
+        case 3:
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JOGGING");
+          setStageScene(client, 5);
+          setCharacterMode(client, "JOGGING");
+          break;
+      }
     }
-    _lastRefValue = _renderValue
+    _lastTier = _tier;
+    _lastRefValue = _renderValue;
   }
 };
