@@ -11,22 +11,25 @@ const io = require("socket.io")(httpServer, {
   },
 });
 
-sysHandler.initDataStore('minute')
+let counterUnit = "minute"
+
+sysHandler.initDataStore(counterUnit)
 
 io.on("connection", (socket) => {
   // console.log(socket)
   socket.on("toggleStageScene", (data) => {
-    console.log("toggleStageScene to :", data)
+    console.log("!!!--> toggleStageScene to :", data)
     sysHandler.setStageScene(client,data)
   })
 
   socket.on("toggleCharacterMode", (data) => {
-    console.log("toggleCharacterMode to :", data)
+    console.log("!!!--> toggleCharacterMode to :", data)
     sysHandler.setCharacterMode(client,data)
   })
 
   socket.on("setDisplayMode", (data)=> {
     sysHandler.setDisplayMode(data)
+    console.log(`!!!--> Changed display mode: ${data}`)
   })
 
   socket.on("testTier", (data)=> {
@@ -34,7 +37,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("offEverything", () => {
-    console.log("offEverything")
+    console.log("!!!--> offEverything")
     sysHandler.offEverything(client)
   })
 });
@@ -81,3 +84,8 @@ client.on('message', function (topic, message) {
   }
   sysHandler.displayHandler(io.sockets, client)
 })
+
+setInterval(()=> {
+  // Regularly chacking status
+  sysHandler.displayHandler(io.sockets, client)
+}, 1000)

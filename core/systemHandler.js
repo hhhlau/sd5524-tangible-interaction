@@ -74,6 +74,7 @@ const recordHandler = function (val, client) {
     case "minute":
       cStamp = moment().minute();
       if (cStamp != dataStore.lastRefStamp) {
+        console.log(`Session changed from ${dataStore.lastRefStamp} to ${cStamp} (${dataStore.unit})`);
         dataStore.lastRefStamp = cStamp;
         dataStore.displayRecords = dataStore.currentRecords;
         dataStore.currentRecords = [];
@@ -83,6 +84,7 @@ const recordHandler = function (val, client) {
     case "hour":
       cStamp = moment().hour();
       if (cStamp != dataStore.lastRefStamp) {
+        console.log(`Session changed from ${dataStore.lastRefStamp} to ${cStamp} (${dataStore.unit})`);
         dataStore.lastRefStamp = cStamp;
         dataStore.displayRecords = dataStore.currentRecords;
         dataStore.currentRecords = [];
@@ -92,31 +94,34 @@ const recordHandler = function (val, client) {
     case "second":
       cStamp = moment().second();
       if (cStamp != dataStore.lastRefStamp) {
+        console.log(`Session changed from ${dataStore.lastRefStamp} to ${cStamp} (${dataStore.unit})`);
         dataStore.lastRefStamp = cStamp;
         dataStore.displayRecords = dataStore.currentRecords;
         dataStore.currentRecords = [];
       }
 
       break;
-    case "30s":
+    case "30s": // debt
       cStamp = moment().second();
       if (cStamp != dataStore.lastRefStamp) {
+        console.log(`Session changed from ${dataStore.lastRefStamp} to ${cStamp} (${dataStore.unit})`);
         dataStore.lastRefStamp = cStamp;
         dataStore.displayRecords = dataStore.currentRecords;
         dataStore.currentRecords = [];
       }
 
       break;
-    case "30m":
+    case "30m": //debt
       cStamp = moment().minute();
       if (cStamp != dataStore.lastRefStamp) {
+        console.log(`Session changed from ${dataStore.lastRefStamp} to ${cStamp} (${dataStore.unit})`);
         dataStore.lastRefStamp = cStamp;
         dataStore.displayRecords = dataStore.currentRecords;
         dataStore.currentRecords = [];
       }
 
       break;
-    case "12h":
+    case "12h": //debt
       cStamp = moment().hour();
       if (cStamp != dataStore.lastRefStamp) {
         dataStore.lastRefStamp = cStamp;
