@@ -23,40 +23,55 @@
       </div>
     </div>
     <div class="info-container">
-      <button @click="offEverything">offEverything</button>
-      <select v-model="selectedStageScene">
-        <option
-          v-for="option in stageSceneOptions"
-          :value="option.value"
-          :key="option.value"
-        >
-          {{ option.text }}
-        </option>
-      </select>
-      <select v-model="selectedCharacterMode">
-        <option
-          v-for="option in characterModeOptions"
-          :value="option.value"
-          :key="option.value"
-        >
-          {{ option.text }}
-        </option>
-      </select>
+      <h1 style="margin: 16px;">Control</h1>
+      <div><button @click="offEverything">offEverything</button></div>
+      <div>
+        <label>Scene stage:</label>
+        <select v-model="selectedStageScene">
+          <option
+            v-for="option in stageSceneOptions"
+            :value="option.value"
+            :key="option.value"
+          >
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <label>Character Mode:</label>
+        <select v-model="selectedCharacterMode">
+          <option
+            v-for="option in characterModeOptions"
+            :value="option.value"
+            :key="option.value"
+          >
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
 
-      <select v-model="selectedDisplayMode">
-        <option
-          v-for="option in displayModeOptions"
-          :value="option.value"
-          :key="option.value"
-        >
-          {{ option.text }}
-        </option>
-      </select>
+      <div>
+        <label>Display Mode:</label>
+        <select v-model="selectedDisplayMode">
+          <option
+            v-for="option in displayModeOptions"
+            :value="option.value"
+            :key="option.value"
+          >
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
 
-      <div>{{displayData}}</div>
+      <div class="displayData">{{ displayData }}</div>
 
       <div class="mq-observer">
-        <iframe src="https://sd5524-2-broker.cloud.shiftr.io/embed?widgets=1" width="600" height="400" frameborder="0" allowfullscreen></iframe>
+        <iframe
+          src="https://sd5524-2-broker.cloud.shiftr.io/embed?widgets=0"
+          width="100%"
+          height="400"
+          frameborder="0"
+        ></iframe>
       </div>
     </div>
   </div>
@@ -66,7 +81,7 @@
 import { io } from "socket.io-client";
 
 const URL = "http://158.132.54.138:3000";
-// const URL = "http://localhost:3000"
+// const URL = "http://localhost:3000";
 const socket = io(URL);
 socket.on("connection", (socket) => {
   console.log(socket.handshake.auth); // prints { token: "abcd" }
@@ -91,16 +106,16 @@ export default {
       displayData: null,
 
       displayModeOptions: [
-        {text: "Real time", value: "currentRecords"},
-        {text: "Recorded data", value: "displayRecords"},
+        { text: "Real time", value: "currentRecords" },
+        { text: "Recorded data", value: "displayRecords" },
       ],
 
       stageSceneOptions: [
-        { text: "Off", value: 0 },
+        // { text: "Off", value: 0 },
         { text: "Stage 1", value: 1 },
         { text: "Stage 2", value: 2 },
         { text: "Stage 3", value: 3 },
-        { text: "Stage 4", value: 4 },
+        // { text: "Stage 4", value: 4 },
         // { text: "Stage 5", value: 5 },
       ],
       characterModeOptions: [
@@ -118,11 +133,11 @@ export default {
     socket.on("ping", (payload) => {
       console.log(payload);
     });
-    socket.on("display", (payload)=> {
+    socket.on("display", (payload) => {
       // console.log(payload);
-      this.selectedDisplayMode = payload.mode
-      this.displayData = payload
-    })
+      this.selectedDisplayMode = payload.mode;
+      this.displayData = payload;
+    });
   },
   watch: {
     currentSpeed() {
@@ -171,19 +186,19 @@ export default {
       if (this.selectedCharacterMode) {
         switch (this.selectedCharacterMode) {
           case "STANDING":
-            this.currentSpeed = 0
+            this.currentSpeed = 0;
             // this.characterBodyEl.style.transform = "rotate(0)";
             // this.rollerBgEl.classList.remove("running-bg");
             // this.characterFeetEl.classList.remove("running-feet");
             break;
           case "WALKING":
-            this.currentSpeed = 1
+            this.currentSpeed = 1;
             // this.characterBodyEl.style.transform = "rotate(5deg)";
             // this.rollerBgEl.classList.add("walking-bg");
             // this.characterFeetEl.classList.add("walking-feet");
             break;
           case "JOGGING":
-            this.currentSpeed = 2
+            this.currentSpeed = 2;
             // this.characterBodyEl.style.transform = "rotate(10deg)";
             // this.rollerBgEl.classList.remove("walking-bg");
             // this.rollerBgEl.classList.add("jogging-bg");
@@ -192,7 +207,7 @@ export default {
             // this.characterFeetEl.classList.add("jogging-feet");
             break;
           case "RUNNING":
-            this.currentSpeed = 3
+            this.currentSpeed = 3;
             // this.characterBodyEl.style.transform = "rotate(30deg)";
             // this.rollerBgEl.classList.remove("jogging-bg");
             // this.rollerBgEl.classList.add("running-bg");
@@ -225,11 +240,12 @@ export default {
 .master-container {
   width: 100vw;
   height: 100vh;
+  display: flex;
 }
 
 .stage-container {
-  width: 100%;
-  height: 70%;
+  width: 60%;
+  height: 100%;
   background-color: antiquewhite;
   display: flex;
   justify-content: center;
@@ -294,23 +310,24 @@ export default {
   height: 500px;
   display: flex;
   justify-content: center;
-  position: relative;
+  position: absolute;
+  bottom: 150px;
 }
 
 #character-body {
   width: 100%;
-  height: 350px;
+  height: 490px;
   /* background-color: red; */
   transform-origin: bottom center;
   background-size: cover;
 }
 
 #character-feet {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   /* background-color: blue; */
   position: absolute;
-  top: 300px;
+  bottom: -150px;
   background-size: cover;
 }
 
@@ -324,8 +341,32 @@ export default {
 }
 
 .info-container {
-  width: 100%;
-  height: 30%;
+  width: 40%;
+  height: 100%;
   background-color: gray;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.info-container > div {
+  margin: 16px;
+}
+.displayData {
+  /* position: absolute; */
+  width: 80%;
+  margin: 16px;
+  padding: 16px;
+  min-height: 100px;
+  background-color: rgba(255,255,255,0.2);
+  align-self: center;
+  border-radius: 10px;
+}
+.mq-observer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 400px;
+  margin: 0 !important;
 }
 </style>
