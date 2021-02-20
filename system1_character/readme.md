@@ -6,12 +6,12 @@ Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd.
 
 ## Materials and resources
 ### Electronics
-| Item | ID (if any) | Qualities | Purpose | Where to get |
+| Item | ID (if any) | Quantities | Purpose | Where to get |
 | ---- | :-----------: | :---------: | ------- | ------------ |
-| 180 Servo motor | 996N | 1 | Control the inclination of the character | [Taobao]() |
-| Small DC motor (from kit) | / | 1 | For the motor of the character feet | [Taobao]() |
-| NodeMCU v1 | ESP 8266 | 1 | Controlling the hardwares with wireless compability
-| DC Motor shield | L298N | 1 (_share use with system 3_) | Allow speed control and direction control for 2 DC motors | [Taobao]()
+| 180 Servo motor | MG996 | 1 | Control the inclination of the character | [Taobao](https://item.taobao.com/item.htm?spm=a312a.7700824.w4002-23304424597.26.7e839d8aDol6Ct&id=581652733065) |
+| Small DC motor (from kit) | / | 1 | For the motor of the character feet | [Taobao](https://item.taobao.com/item.htm?spm=2013.1.w4018-14621716591.3.402c728eiOjwqU&id=568426498725&scm=1007.11837.58613.i19981437713&pvid=2a62f3f8-f069-48b6-9c7e-429450f9f0b9) |
+| NodeMCU v1 | ESP 8266 | 1 | Controlling the hardwares with wireless compability | [Taobao](https://detail.tmall.com/item.htm?spm=a230r.1.14.16.116e67dflXKZax&id=606082163513&ns=1&abbucket=18&skuId=4481432642490)
+| DC Motor shield | L298N | 1 (_share use with system 3_) | Allow speed control and direction control for 2 DC motors | [Taobao](https://detail.tmall.com/item.htm?spm=a230r.1.14.23.53526f0dTKTMPP&id=18566053714&ns=1&abbucket=18)
 
 ### Laser cut 
 ![alt text](./resources/laser-cut.jpg "System 1 Laser cut schematic")
