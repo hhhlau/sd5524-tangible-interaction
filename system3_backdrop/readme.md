@@ -1,5 +1,5 @@
 ![alt text](./resources/cover.png "System 3 cover")
-# System 3: the backgorund
+# System 3: the background
 
 ## Descpription
 
