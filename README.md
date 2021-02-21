@@ -100,7 +100,7 @@ For each details, plese refer the specific system pages
 - [System 4](./system4_supporting/readme.md)
 
 ### Integrated video demo
-![Vimeo link](https://vimeo.com/514889815)
+[Vimeo link](https://vimeo.com/514889815)
 
 
 ## Special thanks
