@@ -100,7 +100,8 @@ For each details, plese refer the specific system pages
 - [System 4](./system4_supporting/readme.md)
 
 ### Integrated video demo
-![](./resources/sd5524_final.MP4)
+![Vimeo link](https://vimeo.com/514889815)
+
 
 ## Special thanks
 We are very thankful for the supports and leatures from Dr. Clifford Choy and his team (Tim and Henry)
