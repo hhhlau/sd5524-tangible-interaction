@@ -74,8 +74,26 @@ Few points to share on using L298N:
 - PWM is used for speed controlling, be aware if the pin on the controller board is supported.
 ### Stage set up
 ![alt text](./resources/laser-cut.jpg "Stage Laser cut schematic")
+Material: **3mm MDF**
+
+File: [download](./resources/Stage&Characters.ai)
+![](./resources/install1.png)
+![](./resources/install2.png)
+
+### Over all setup guide
+Follow the instruction as following orders:
+
+1. The stage
+2. [Core](./core/readme.md)
+3. [System 1](./system1_character/readme.md)
+4. [System 2](./system2_input/readme.md)
+5. [System 3](./system3_backdrop/readme.md)
+6. [System 4](./system4_supporting/readme.md)
+7. Test the overall system
+
+
 ### System details
-For details, plese refer the specific system pages
+For each details, plese refer the specific system pages
 - [System 1](./system1_character/readme.md)
 - [System 2](./system2_input/readme.md)
 - [System 3](./system3_backdrop/readme.md)

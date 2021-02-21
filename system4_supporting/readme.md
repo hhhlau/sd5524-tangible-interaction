@@ -2,7 +2,7 @@
 # System 4: the supporting
 
 ## Descpription
-Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd. Elitr consetetur sit lorem ea no,.Ea et stet eos diam ipsum et sea dolores et sanctus. Amet dolore et eos at duo accusam takimata invidunt, ipsum amet takimata nonumy diam consetetur, et lorem tempor sed sea accusam at, aliquyam dolores ipsum dolor gubergren sea dolor, sadipscing et invidunt diam invidunt at stet magna, lorem diam.
+The supporting structure is divided into two sections, a monster, and a house. The monster will be pushed on the stage when lots of people pass through the input sensor, which means the fast-paced life chases users. Once the house shows up on the stage, means the user finally escaped from the hustle.
 
 ## Materials and resources
 ! The below listing and steps are for 1 supporting unit ONLY, please adjust the quantity
@@ -18,12 +18,15 @@ Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd.
 
 ### Laser cut 
 ![alt text](./resources/laser-cut.jpg "System 4 Laser cut schematic")
-**3mm clear acrylic**
+
+Material: **3mm clear acrylic**
+
+File: [download](./resources/Supporting.ai) **Sharing MDF with System 1**
 
 ### Steps to assemble
 1. Put the Servo motor though the rectagular opening on parts _4-a_, fix the servo motor with 3mm screws and nuts, install gear horn
 2. Wire up the servo motor with ESP8266, set the angle to the hiding position, unwire it afterward
-3. Screw in the rod holders on part _4-a_
+3. Screw in the angle clamps on part _4-b_
 4. Screw in the angle clamps in the support panels (part# xxx)
 5. Insert two 2mm rods though the angle clamps
 6. Slot in the suppoting panel on the rods, adjust the position then fix it with yellow rubber rings
@@ -31,6 +34,10 @@ Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd.
 8. Connect the green cross-shaped with the gear horn on the servo motor
 9. Make sure all the wires are running at the back of _4-a_ and long enough to run though the opening on the stage, extend the wires if needed
 10. Test the system by deploying the code and controls as below
+
+
+![](./resources/collage1.jpeg)
+![](./resources/install.PNG)
 
 ## Wiring
 ![alt text](./resources/wiring.png "Wiring for system 4")

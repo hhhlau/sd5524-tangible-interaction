@@ -2,7 +2,7 @@
 # System 1: The Character
 
 ## Descpription
-Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd. Elitr consetetur sit lorem ea no,.Ea et stet eos diam ipsum et sea dolores et sanctus. Amet dolore et eos at duo accusam takimata invidunt, ipsum amet takimata nonumy diam consetetur, et lorem tempor sed sea accusam at, aliquyam dolores ipsum dolor gubergren sea dolor, sadipscing et invidunt diam invidunt at stet magna, lorem diam.
+As one of the outputs, mapping with the user's steps' speed on the input board. The disc represents running movement. The rotating speed of the disc is based on the user's steps. With more steps on the board, the disc will rotate faster. Meanwhile, the character also has three inclination angles, involved with standing, walking and running.
 
 ## Materials and resources
 ### Electronics
@@ -15,7 +15,9 @@ Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd.
 
 ### Laser cut 
 ![alt text](./resources/laser-cut.jpg "System 1 Laser cut schematic")
-**3mm clear acrylic**
+Material: **3mm clear acrylic**
+
+File: [download](./resources/Supporting.ai) **Sharing MDF with System 4**
 
 ### Steps to assemble
 1. Put the Servo motor though the rectagular opening on parts _1-a_, fix the servo motor with 3mm screws and nuts
@@ -23,6 +25,9 @@ Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd.
 3. Put the motor mounting plate on the _1-a_ with screws
 4. Make sure all the wires are running at the back of _1-a_ and long enough to run though the opening on the stage, extend the wires if needed
 5. Test the system by deploying the code and controls as below
+
+![](./resources/collage1.jpeg)
+![](./resources/install.PNG)
 
 ## Wiring
 ![alt text](./resources/wiring.png "Wiring for system 1")

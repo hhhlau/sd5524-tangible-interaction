@@ -3,7 +3,7 @@
 
 ## Descpription
 
-Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd. Elitr consetetur sit lorem ea no,.Ea et stet eos diam ipsum et sea dolores et sanctus. Amet dolore et eos at duo accusam takimata invidunt, ipsum amet takimata nonumy diam consetetur, et lorem tempor sed sea accusam at, aliquyam dolores ipsum dolor gubergren sea dolor, sadipscing et invidunt diam invidunt at stet magna, lorem diam.
+The background represents the scenery on the road, aiming to provide a positive output that can bring an enjoyable visual experience to users. And we put a pixel inside the background as an environment light, from dark to light, to represent the hustle state.
 
 [NEO Pixel Doc](https://adafruit.github.io/Adafruit_NeoPixel/html/class_adafruit___neo_pixel.html#a74e917093c2eb16848c4a09427680f79)
 
@@ -19,22 +19,28 @@ Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd.
 | Rubber band/ tube | / | ~ 1m (depends on the distance of two rollers) | as the connection belt for two rollers | local store
 
 ### Laser cut 
-![alt text](./resources/laser-cut.jpg "System 1 Laser cut schematic")
-**3mm MDF**
+![alt text](./resources/laser-cut.jpg "System 3 Laser cut schematic")
+Material: **3mm MDF**
+File: [download](./resources/Backdrop.ai)
 
 ### Steps to assemble
  
 1. Install the motor under the stage platform though the opening _s-1_, fix it with screws
 2. Insert one steel rod though the opening _s-2_, which should the center of the background roller without motor
-3. Prepare the roller disk for the motor side (parts # 3-1,2,3,4), stack them up on the motor's axis as the image show
-4. Prepare the roller disk for the **NON** motor side (parts # 3-1,2,3,4), install the bearing in the bottomest plate, stack them up though the steel rod as the image show
+3. Prepare the roller disk for the motor side (parts # 3-1,3-2,3-3,3-4), stack them up on the motor's axis as the image show
+4. Prepare the roller disk for the **NON** motor side (parts # 3-1a,3-2a,3-3a,3-4a), install the bearing in the bottomest plate, stack them up though the steel rod as the image show
 5. Fit on the rubber tube, test the motion by powering up the motor
-6. If everything works, extend the height of the roller with the roller extention parts (part# )
+6. If everything works, extend the height of the roller with the roller extention parts
+
+![](./resources/collage1.jpeg)
+
 7. Insert a bearing on the toppest plate for both roller, insert the steel rod though the bearing for the roller with the motor
 8. Solder up the neo pixels to the length you wish, for our case is 4 units of panels with 32 LEDs (**Remeber to update the number of pixels in the code!**)
-9. Make sure all the wires are running though the opening of _1-a_ on the stage floor, extend the wires if needed
+9.  Make sure all the wires are running though the opening of _1-a_ on the stage floor, extend the wires if needed
 10. Put on the background
 11. Test the system by deploying the code and controls as below
+
+![](./resources/install.PNG)
 
 ## Wiring
 ![alt text](./resources/wiring.png "Wiring for system 1")
@@ -100,14 +106,4 @@ For details, please reference to the comments in [sys3.ino](sys3/sys3.ino). For 
     {
       "numOfPixels": 16
     }
-    ```
-
-## Status (publishing)
-1. status: `{device_id}/status`
-
-    #### example body
-    ```JSON
-    {
-      
-     }
     ```

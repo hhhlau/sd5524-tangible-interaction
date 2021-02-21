@@ -2,7 +2,7 @@
 # System 2: The sensor
 
 ## Descpription
-Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd. Elitr consetetur sit lorem ea no,.Ea et stet eos diam ipsum et sea dolores et sanctus. Amet dolore et eos at duo accusam takimata invidunt, ipsum amet takimata nonumy diam consetetur, et lorem tempor sed sea accusam at, aliquyam dolores ipsum dolor gubergren sea dolor, sadipscing et invidunt diam invidunt at stet magna, lorem diam.
+Collecting data from users’ steps as the input, with different steps on the sensor, means the hustle state of the current scenario. It can be placed anywhere to capture hustle data.
 
 ## Materials and resources
 
@@ -17,7 +17,8 @@ Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd.
 ### Laser cut 
 ![alt text](./resources/laser-cut.jpg "System 2 Laser cut schematic")
 
-**3mm clear acrylic** ,**3mm MDF board**
+Material: **3mm MDF board**
+File: [download](./resources/Input.ai)
 
 ### Steps to assemble
 1. Apply copper tape on the inner side of sensor plate, solder the connection points of the tapes to make sure they are all connected ![](./resources/IMG_1716.jpeg)
@@ -25,6 +26,8 @@ Et dolores ut et dolor diam sanctus clita, lorem diam sed gubergren tempor kasd.
 3. Put the velostat in the middle of the conductive layer
 5. Wire up the system
 6. Test the system by deploying the code and controls as below
+
+![](./resources/install.PNG)
 
 ## Wiring
 ![alt text](./resources/wiring.png "Wiring for system 1")
